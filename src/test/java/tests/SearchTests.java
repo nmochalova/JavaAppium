@@ -104,13 +104,13 @@ public class SearchTests extends CoreTestCase
     }
 
     //Тест, который проверяет что в поле поиска "Search..." действительно написано "Search..."
-    @Test
-    public void testContainText() {
-        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
-
-        SearchPageObject.initSearchInput();
-        SearchPageObject.assertTextSearchString();
-    }
+//    @Test
+//    public void testContainText() {
+//        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
+//
+//        SearchPageObject.initSearchInput();
+//        SearchPageObject.assertTextSearchString();
+//    }
 
     // Ex4*: Тест: проверка слов в поиске. Тест делает поиск по какому-то ключевому слову. Например, JAVA.
     // Затем убеждается, что в каждом результате поиска есть это слово. Ошибка выдается в случае, если хотя бы один элемент
