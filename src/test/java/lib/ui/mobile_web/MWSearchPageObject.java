@@ -12,10 +12,11 @@ public class MWSearchPageObject extends SearchPageObject {
         SEARCH_RESULT_ELEMENT = "css:ul.page-list>li.page-summary";
         SEARCH_EMPTY_RESULT_ELEMENT = "css:p.without-results";
 
-        SEARCH_RESULT_CONTAINER = "css:li.page-summary";
+        SEARCH_RESULT_CONTAINER = "css:ul.page-list>li.page-summary";
+        SEARCH_ARTICLE_FOR_TITLE_AND_DESC = "xpath://li[contains(@title,'{SUBSTRING_TITLE}')]//*[contains(text(),'{SUBSTRING_DESC}')]";
 
         //ВНИМАНИЕ! Эти локаторы необходимо обновить для Web mobile!
-        SEARCH_ARTICLE_FOR_TITLE_AND_DESC = "xpath://android.widget.LinearLayout[*[@text='{SUBSTRING_TITLE}'] and *[@text='{SUBSTRING_DESC}']]";
+        //SEARCH_ARTICLE_FOR_TITLE_AND_DESC = "xpath://android.widget.LinearLayout[*[@text='{SUBSTRING_TITLE}'] and *[@text='{SUBSTRING_DESC}']]";
         SEARCH_RESULT_TITLE = "xpath://*[@resource-id='org.wikipedia:id/view_page_header_container']/*[@resource-id='org.wikipedia:id/view_page_title_text']";
         SEARCH_STRING_TEXT = "id:org.wikipedia:id/search_src_text";
     }

@@ -94,9 +94,13 @@ public class SearchTests extends CoreTestCase
         SearchPageObject.typeSearchLine("Java");
 
         HashMap<String, String> TitleAndNDescription = new HashMap<>();
-        TitleAndNDescription.put("Java", "Island of Indonesia");
-        TitleAndNDescription.put("JavaScript", "Programming language");
-        TitleAndNDescription.put("Java (programming language)", "Object-oriented programming language");
+//        TitleAndNDescription.put("Java", "Island of Indonesia");
+//        TitleAndNDescription.put("JavaScript", "Programming language");
+//        TitleAndNDescription.put("Java (programming language)", "Object-oriented programming language");
+
+        TitleAndNDescription.put("Java", "Indonesia");
+        TitleAndNDescription.put("JavaScript", "rogramming language");
+        TitleAndNDescription.put("Java (programming language)", "bject-oriented programming language");
 
         for (Map.Entry<String, String> kv : TitleAndNDescription.entrySet()) {
             SearchPageObject.waitForElementByTitleAndDescription(kv.getKey(), kv.getValue());
