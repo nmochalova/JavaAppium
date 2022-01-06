@@ -10,6 +10,7 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -19,9 +20,9 @@ import java.util.regex.Pattern;
 
 public class MainPageObject {
 
-    protected AppiumDriver driver;
+    protected RemoteWebDriver driver;
 
-    public MainPageObject(AppiumDriver driver)
+    public MainPageObject(RemoteWebDriver driver)
     {
         this.driver = driver;
     }
@@ -109,17 +110,21 @@ public class MainPageObject {
 
     public void swipeUp(int timeOfSwipe)
     {
-        TouchAction action = new TouchAction(driver);           //важно выбрать метод для Appium
-        Dimension size = driver.manage().window().getSize();    //взять размер экрана
-        int x = size.width / 2;                                 //условные координаты х: ширина экрана пополам
-        int startY = (int) (size.height * 0.8);                 //условная координата у: 80% от высоты экрана
-        int endY = (int) (size.height * 0.2);                   //условная координата у: свайпаем до 20% по высоте экрана
-        action
-                .press(PointOption.point(x,startY))
-                .waitAction(WaitOptions.waitOptions(Duration.ofMillis(timeOfSwipe)))
-                .moveTo(PointOption.point(x, endY))
-                .release()
-                .perform();
+        if (driver instanceof AppiumDriver) {
+            TouchAction action = new TouchAction((AppiumDriver) driver);           //важно выбрать метод для Appium
+            Dimension size = driver.manage().window().getSize();    //взять размер экрана
+            int x = size.width / 2;                                 //условные координаты х: ширина экрана пополам
+            int startY = (int) (size.height * 0.8);                 //условная координата у: 80% от высоты экрана
+            int endY = (int) (size.height * 0.2);                   //условная координата у: свайпаем до 20% по высоте экрана
+            action
+                    .press(PointOption.point(x, startY))
+                    .waitAction(WaitOptions.waitOptions(Duration.ofMillis(timeOfSwipe)))
+                    .moveTo(PointOption.point(x, endY))
+                    .release()
+                    .perform();
+        } else {
+            System.out.println("Method swipeUp() does nothing for platform " + Platform.getInstance().getPlatformVar());
+        }
     }
 
     public void swipeUpQuick()
@@ -172,47 +177,55 @@ public class MainPageObject {
     // Для iOS: метод будет кликать по кнопке удаления (красная корзина) при удалении статьи из избранного
     public void clickElementToTheRightUpperCorner(String locator, String error_message)
     {
-        WebElement element = this.waitForElementPresent(locator + "/..",error_message); //locator + "/.." - означает родительский эл-т локатора
-        int right_x = element.getLocation().getX();
-        int upper_y = element.getLocation().getY();
-        int lower_y = upper_y + element.getSize().getWidth();
-        int middle_y = (upper_y + lower_y) / 2;
-        int width = element.getSize().getWidth();
+        if (driver instanceof AppiumDriver) {
+            WebElement element = this.waitForElementPresent(locator + "/..", error_message); //locator + "/.." - означает родительский эл-т локатора
+            int right_x = element.getLocation().getX();
+            int upper_y = element.getLocation().getY();
+            int lower_y = upper_y + element.getSize().getWidth();
+            int middle_y = (upper_y + lower_y) / 2;
+            int width = element.getSize().getWidth();
 
-        int point_to_click_x = (right_x + width) - 3;  //на 3 пикселя левее чем ширина элемента
-        int point_to_click_y = middle_y;
+            int point_to_click_x = (right_x + width) - 3;  //на 3 пикселя левее чем ширина элемента
+            int point_to_click_y = middle_y;
 
-        TouchAction action = new TouchAction(driver);
-        action.tap(PointOption.point(point_to_click_x,point_to_click_y)).perform();
+            TouchAction action = new TouchAction((AppiumDriver) driver);
+            action.tap(PointOption.point(point_to_click_x, point_to_click_y)).perform();
+        } else {
+            System.out.println("Method clickElementToTheRightUpperCorner() does nothing for platform " + Platform.getInstance().getPlatformVar());
+        }
     }
 
     public  void swipeElementToLeft(String locator, String error_messange)
     {
-        WebElement element = waitForElementPresent(
-                locator,
-                error_messange,
-                10);
-        int leftX = element.getLocation().getX();           //самая левая точка элемента по оси Х
-        int rightX = leftX + element.getSize().getWidth();  //к крайней левой точки Х прибавляем ширину экрана
-        int upperY = element.getLocation().getY();          //самая верхняя точка элемента по оси У
-        int lowerY = upperY + element.getSize().getHeight();//прибавляем к верхней точке по оси У высоту элемента
-        int middleY = (upperY + lowerY) / 2;                //середина элемента по оси У
+        if (driver instanceof AppiumDriver) {
+            WebElement element = waitForElementPresent(
+                    locator,
+                    error_messange,
+                    10);
+            int leftX = element.getLocation().getX();           //самая левая точка элемента по оси Х
+            int rightX = leftX + element.getSize().getWidth();  //к крайней левой точки Х прибавляем ширину экрана
+            int upperY = element.getLocation().getY();          //самая верхняя точка элемента по оси У
+            int lowerY = upperY + element.getSize().getHeight();//прибавляем к верхней точке по оси У высоту элемента
+            int middleY = (upperY + lowerY) / 2;                //середина элемента по оси У
 
-        TouchAction action = new TouchAction(driver);           //важно выбрать метод для Appium
-        action.press(PointOption.point(rightX,middleY));
-        action.waitAction(WaitOptions.waitOptions(Duration.ofMillis(300)));
+            TouchAction action = new TouchAction((AppiumDriver) driver);           //важно выбрать метод для Appium
+            action.press(PointOption.point(rightX, middleY));
+            action.waitAction(WaitOptions.waitOptions(Duration.ofMillis(300)));
 
-        //В iOS и Android различается отношение к координатам. Если в Android мы работаем с относительными координатами, относительно эл-та
-        //и свайпаем от точке к точке, то в iOS надо свайпать на определенную ширину от начальной точки. Поэтому для iOS будем свайпать на
-        //всю ширину элемента
-        if(Platform.getInstance().isAndroid()) {
+            //В iOS и Android различается отношение к координатам. Если в Android мы работаем с относительными координатами, относительно эл-та
+            //и свайпаем от точке к точке, то в iOS надо свайпать на определенную ширину от начальной точки. Поэтому для iOS будем свайпать на
+            //всю ширину элемента
+            if (Platform.getInstance().isAndroid()) {
                 action.moveTo(PointOption.point(leftX, middleY));
+            } else {
+                int offset_x = (-1 * element.getSize().getWidth());         //(-1 * ширину эл-та), т.е. крайняя левая точка
+                action.moveTo(PointOption.point(offset_x, 0));       //свайп на всю ширину эл-та
+            }
+            action.release();
+            action.perform();
         } else {
-            int offset_x = (-1 * element.getSize().getWidth());         //(-1 * ширину эл-та), т.е. крайняя левая точка
-            action.moveTo(PointOption.point(offset_x, 0));       //свайп на всю ширину эл-та
+            System.out.println("Method swipeElementToLeft() does nothing for platform " + Platform.getInstance().getPlatformVar());
         }
-        action.release();
-        action.perform();
     }
 
     public int getAmountOfElements(String locator)
@@ -256,6 +269,8 @@ public class MainPageObject {
             return By.xpath(locator);
         } else if (byType.equals("id")) {
             return  By.id(locator);
+        } else if (byType.equals("css")) {
+            return  By.cssSelector(locator);
         } else {
             throw new IllegalArgumentException("Cannot get type of locator. Locator: " + locatorWithType);
         }

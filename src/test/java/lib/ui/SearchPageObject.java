@@ -2,7 +2,9 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import lib.Platform;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.util.List;
 
@@ -22,7 +24,7 @@ abstract public class SearchPageObject extends MainPageObject {
             SEARCH_RESULT_CONTAINER;
 
     //Инициализация драйвера
-    public SearchPageObject(AppiumDriver driver)
+    public SearchPageObject(RemoteWebDriver driver)
     {
         super(driver);
     }
@@ -178,17 +180,21 @@ abstract public class SearchPageObject extends MainPageObject {
     public void assertForWordByResultsSearch (String keyWord)
     {
         List<WebElement> elementList = this.waitForElementsPresent(
-               //By.xpath("//*[@resource-id='org.wikipedia:id/search_results_list']//*[@resource-id='org.wikipedia:id/page_list_item_title']"),
                 SEARCH_RESULT_CONTAINER,
                 "List of elements are empty",
                 5
         );
 
+        String elementAttribute;
         for (WebElement webElement : elementList)
         {
-            String elementAttribute = webElement.getAttribute("text");
+            if (Platform.getInstance().isMW()) {
+                 elementAttribute = webElement.getAttribute("title");
+            } else {
+                 elementAttribute = webElement.getAttribute("text");
+            }
             System.out.println(elementAttribute);
-            assertTrue("Search result does not contain " + keyWord,elementAttribute.contains(keyWord));
+            assertTrue("Search result does not contain " + keyWord,elementAttribute.toUpperCase().contains(keyWord.toUpperCase()));
         }
     }
 }

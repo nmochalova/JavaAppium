@@ -2,6 +2,7 @@ package lib.ui.ios;
 
 import io.appium.java_client.AppiumDriver;
 import lib.ui.MyListsPageObject;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class iOSMyListPageObject extends MyListsPageObject {
     static
@@ -10,7 +11,7 @@ public class iOSMyListPageObject extends MyListsPageObject {
         FOLDER_BY_NAME_TPL = "xpath://*[@name='{FOLDER_NAME}']";                        //ВНИМАНИЕ! Обновить локатор! Нужен локатор для поиска по тексту
         SEARCH_RESULT_ELEMENT_BY_LIST = "id:org.wikipedia:id/page_list_item_container"; //ВНИМАНИЕ! Обновить локатор! Нужен id статей в Избранном
     }
-    public iOSMyListPageObject(AppiumDriver driver) {
+    public iOSMyListPageObject(RemoteWebDriver driver) {
         super(driver);
     }
 }

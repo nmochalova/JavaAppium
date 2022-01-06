@@ -3,6 +3,7 @@ package lib.ui;
 import io.appium.java_client.AppiumDriver;
 import lib.Platform;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 /**
  * Методы для работы со статьями
@@ -21,7 +22,7 @@ abstract public class ArticlePageObject extends MainPageObject
         FOLDER_BY_NAME_TPL;
 
     //Инициализация драйвера
-    public ArticlePageObject(AppiumDriver driver)
+    public ArticlePageObject(RemoteWebDriver driver)
     {
         super(driver);
     }

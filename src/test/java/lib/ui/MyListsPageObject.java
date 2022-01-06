@@ -2,6 +2,7 @@ package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
 import lib.Platform;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 abstract public class MyListsPageObject extends MainPageObject{
 
@@ -22,7 +23,7 @@ abstract public class MyListsPageObject extends MainPageObject{
     }
 
     //Инициализация драйвера
-    public MyListsPageObject(AppiumDriver driver)
+    public MyListsPageObject(RemoteWebDriver driver)
     {
         super(driver);
     }
