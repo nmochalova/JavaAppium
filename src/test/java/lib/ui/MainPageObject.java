@@ -7,9 +7,7 @@ import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.PointOption;
 import lib.Platform;
 import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -132,6 +130,31 @@ public class MainPageObject {
         swipeUp(200);
     }
 
+    //метод эмитации скрола для mobile Web
+    public void scrollwebPageUp() {
+        if (Platform.getInstance().isMW()) {
+            JavascriptExecutor JSExecuter = (JavascriptExecutor) driver;
+            JSExecuter.executeScript("window.scrollBy(0,250)");
+        } else {
+            System.out.println("Method scrollwebPageUp() does nothing for platform " + Platform.getInstance().getPlatformVar());
+        }
+    }
+
+    //метод будет делать скрол до тех пор пока элемент не будет в поле зрения пользователя
+    public void scrollWebPageTillElementNotVisible(String locator, String error_message, int max_swipes) {
+        int already_swiped = 0;
+
+        WebElement element = this.waitForElementPresent(locator, error_message);
+
+        while (!this.isElementLocatedOnTheScreen(locator)) {
+            scrollwebPageUp();
+            ++already_swiped;
+            if (already_swiped > max_swipes) {
+                Assert.assertTrue(error_message, element.isDisplayed());
+            }
+        }
+    }
+
    //Свайп вниз. Метод для Andoid.
     public void swipeUpToFindElement(String locator,String error_messange, int maxSwipes)
     {
@@ -168,6 +191,12 @@ public class MainPageObject {
         int element_location_by_y = this.waitForElementPresent(locator,"Cannot find element by locator",5)
                 .getLocation()
                 .getY();
+        if (Platform.getInstance().isMW()) {
+            JavascriptExecutor JSExecutor = (JavascriptExecutor) driver;
+            Object js_result = JSExecutor.executeScript("return window.pageYOffset");
+            element_location_by_y -= Integer.parseInt(js_result.toString());
+            //сначала результат выполнения js-скрипта переводим в стринг, потом парсим его в int, который затем вычитаем из element_location_by_y
+        }
         int screen_size_by_y = driver.manage().window().getSize().getHeight(); //получаем длину всего экрана
         //пока не доскролим до переменной screen_size_by_y будем возвращать false, как только доберемся - true
         return element_location_by_y < screen_size_by_y;
