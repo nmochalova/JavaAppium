@@ -20,6 +20,10 @@ public class GetStartedTest extends CoreTestCase
         DesiredCapabilities capabilities = Platform.getAndroidDesiredCapabilities();
         Object appCapabilities = capabilities.getCapability("app");
 
+        if (Platform.getInstance().isMW()) {
+            return;
+        }
+
         if (Platform.getInstance().isAndroid())
         {
            if (appCapabilities.equals("C:\\Work\\Git\\JavaAppiumAutomation\\apks\\old-wiki.apk")) {

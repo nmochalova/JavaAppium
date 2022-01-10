@@ -9,11 +9,18 @@ abstract public class MyListsPageObject extends MainPageObject{
     protected static String ARTICLE_BY_TITLE_TPL;
     protected static String SEARCH_RESULT_ELEMENT_BY_LIST;
     protected static String FOLDER_BY_NAME_TPL;
+    protected static String REMOVE_FROM_SAVED_BUTTON;
 
     //метод возвращает Xpath для статьи (заменяет параметр {TITLE} на переданное имя статьи)
     private  String getSavedArticleXpathByTitle(String articleTitle)
     {
         return ARTICLE_BY_TITLE_TPL.replace("{TITLE}",articleTitle);
+    }
+
+    //метод для mobile web, возвращает кнопку удаления статьи из избранного
+    private  String getRemoveButtonByTitle(String articleTitle)
+    {
+        return REMOVE_FROM_SAVED_BUTTON.replace("{TITLE}",articleTitle);
     }
 
     //метод заменяет параметр {FOLDER_NAME} на переданное имя папки
@@ -31,11 +38,16 @@ abstract public class MyListsPageObject extends MainPageObject{
     //метод проверяет что указанная статья присутствует
     public void waitForArticleToAppearByTitle(String articleTitle)
     {
-        String articleXpath = getFolderXpathByName(articleTitle);
+        String articleXpath;
+        if (Platform.getInstance().isMW()) {
+            articleXpath = getSavedArticleXpathByTitle(articleTitle);
+        } else {
+            articleXpath = getFolderXpathByName(articleTitle);
+        }
 
         this.waitForElementPresent(
                 articleXpath,
-                "Cannot find saved article by title" + articleTitle,
+                "Cannot find saved article by title " + articleTitle,
                 15);
     }
 
@@ -55,12 +67,27 @@ abstract public class MyListsPageObject extends MainPageObject{
     {
         this.waitForArticleToAppearByTitle(articleTitle);
         String articleXpath = getFolderXpathByName(articleTitle);
-        this.swipeElementToLeft(
-                articleXpath,
-                "Cannot find saved article");
-        if(Platform.getInstance().isIOS()) {
-                this.clickElementToTheRightUpperCorner(articleXpath,"Cannot find saved article");
+
+        if(Platform.getInstance().isIOS() || Platform.getInstance().isAndroid()) {
+            this.swipeElementToLeft(
+                    articleXpath,
+                    "Cannot find saved article ");
+        } else {
+            String remove_locator = getRemoveButtonByTitle(articleTitle);
+            this.waitForElementAndClick(
+                    remove_locator,
+                    "Cannot click button to remove article from saved.",
+                    10
+            );
         }
+        if(Platform.getInstance().isIOS()) {
+                this.clickElementToTheRightUpperCorner(articleXpath,"Cannot find saved article ");
+        }
+
+        if(Platform.getInstance().isMW()) {
+            driver.navigate().refresh();
+        }
+
         this.waitForArticleToDisappearByTitle(articleTitle);
     }
 

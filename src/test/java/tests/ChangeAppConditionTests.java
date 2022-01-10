@@ -1,11 +1,13 @@
 package tests;
 
 import lib.CoreTestCase;
+import lib.Platform;
 import lib.ui.ArticlePageObject;
 import lib.ui.SearchPageObject;
 import lib.ui.factories.ArticlePageObjectFactory;
 import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
+import org.springframework.beans.factory.config.PlaceholderConfigurerSupport;
 
 /**
  * Тесты на состояние приложения после изменения его состояния (ориентация экрана, Background)
@@ -16,6 +18,9 @@ public class ChangeAppConditionTests extends CoreTestCase
     @Test
     public void testChangeScreenOrientationOnSearchResult()
     {
+        if (Platform.getInstance().isMW()) {
+            return;
+        }
         SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Java");
@@ -44,6 +49,9 @@ public class ChangeAppConditionTests extends CoreTestCase
     @Test
     public void testCheckSearchArticleInBackground()
     {
+        if (Platform.getInstance().isMW()) {
+            return;
+        }
         SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);;
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Java");

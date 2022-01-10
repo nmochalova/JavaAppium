@@ -19,7 +19,8 @@ abstract public class ArticlePageObject extends MainPageObject
         MY_LIST_NAME_INPUT,
         MY_LIST_OK_BUTTON,
         CLOSE_ARTICLE_BUTTON,
-        FOLDER_BY_NAME_TPL;
+        FOLDER_BY_NAME_TPL,
+        OPTIONS_REMOVE_FROM_MY_LIST_BUTTON;
 
     //Инициализация драйвера
     public ArticlePageObject(RemoteWebDriver driver)
@@ -116,7 +117,26 @@ abstract public class ArticlePageObject extends MainPageObject
     //метод добавляет статью в избранное (для iOS)
     public void addArticlesToMySaved()
     {
+        if (Platform.getInstance().isMW()) {
+            this.removeArticleFromSavedIfItAdded();
+        }
         this.waitForElementAndClick(OPTIONS_ADD_TO_MY_LIST_BUTTON,"Cannot find option to add article to reading list",5);
+    }
+
+    //метод, который удаляет статью, если она уже была в Избранном (для mobile web)
+    public void removeArticleFromSavedIfItAdded() {
+        if (this.isElementPresent(OPTIONS_REMOVE_FROM_MY_LIST_BUTTON)) { //если кнопка удаления статьи из Избранного присутствует
+            this.waitForElementAndClick(
+                    OPTIONS_REMOVE_FROM_MY_LIST_BUTTON,
+                    "Cannot click button to remove an article from saved",
+                    1
+            );
+            this.waitForElementPresent(
+                    OPTIONS_ADD_TO_MY_LIST_BUTTON,
+                    "Cannot find button to add an article to saved list after removing it from this list before",
+                    1
+            );
+        }
     }
 
     //метод, который выбирает ранее созданную папку в reading list по имени папки
@@ -152,10 +172,14 @@ abstract public class ArticlePageObject extends MainPageObject
     //метод закрывает статью (нажимет на Х в углу статьи)
     public void closeArticle()
     {
-        this.waitForElementAndClick(
-                CLOSE_ARTICLE_BUTTON,
-                "Cannot close article,cannot find X link",
-                10
-        );
+        if (Platform.getInstance().isIOS() || Platform.getInstance().isAndroid()) {
+            this.waitForElementAndClick(
+                    CLOSE_ARTICLE_BUTTON,
+                    "Cannot close article,cannot find X link",
+                    10
+            );
+        } else {
+            System.out.println("Method closeArticle() does nothing for platform " + Platform.getInstance().getPlatformVar());
+        }
     }
 }

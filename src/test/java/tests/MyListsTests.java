@@ -15,16 +15,18 @@ import org.junit.Test;
 public class MyListsTests extends CoreTestCase
 {
     private static final String nameOfFolder = "prog";
+    private static final String
+        login = "Nmochalova",
+        password = "6ZFsrieNXH";
 
     //Тест сохраняет статью в список, потом находит ее и удаляет из списка (свайпом влево).
     @Test
-    public void testSaveFirstArticleToMyList()
-    {
+    public void testSaveFirstArticleToMyList() throws InterruptedException {
         SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Java");
-        SearchPageObject.clickByArticleWithSubstring("Object-oriented programming language");
+        SearchPageObject.clickByArticleWithSubstring("bject-oriented programming language");
 
         ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
         ArticlePageObject.waitForTitleElement();
@@ -35,9 +37,25 @@ public class MyListsTests extends CoreTestCase
         } else {
             ArticlePageObject.addArticlesToMySaved();
         }
+        if(Platform.getInstance().isMW()) {
+            AuthorizationPageObject Auth = new AuthorizationPageObject(driver);
+            Auth.clickAuthButton();
+            Auth.enterLoginData(login,password);
+            Auth.submitForm();
+
+            ArticlePageObject.waitForTitleElement();
+
+            assertEquals("We are not on the same page after login.",
+                    articleTitle,
+                    ArticlePageObject.getArticleTitle()
+            );
+
+            ArticlePageObject.addArticlesToMySaved();
+        }
         ArticlePageObject.closeArticle();
 
         NavigationUI NavigationUI = NavigationUIFactory.get(driver);
+        NavigationUI.openNavigation();
         NavigationUI.clickMyLists();
 
         MyListsPageObject MyListsPageObject = MyListPageObjectFactory.get(driver);
@@ -58,7 +76,7 @@ public class MyListsTests extends CoreTestCase
 
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Java");
-        SearchPageObject.clickByArticleWithSubstring("Object-oriented programming language");
+        SearchPageObject.clickByArticleWithSubstring("bject-oriented programming language");
 
         ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
         ArticlePageObject.waitForTitleElement();
@@ -74,7 +92,7 @@ public class MyListsTests extends CoreTestCase
         //Добавляем вторую статью
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Appium");
-        SearchPageObject.clickByArticleWithSubstring("Appium");
+        SearchPageObject.clickByArticleWithSubstring("ppium");
         ArticlePageObject.waitForTitleElement();
         String titleArcticleExpected = ArticlePageObject.getArticleTitle();
         if(Platform.getInstance().isAndroid()) {
