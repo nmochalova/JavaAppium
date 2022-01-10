@@ -8,7 +8,8 @@ public class MWSearchPageObject extends SearchPageObject {
         SEARCH_INIT_ELEMENT = "css:button#searchIcon";
         SEARCH_INPUT = "css:form>input.search.mw-ui-background-icon-search";
         SEARCH_CANCEL_BUTTON = "xpath://div[contains(@class,'header-action')]/button[contains(text(),'Close')]";
-        SEARCH_RESULT_BY_SUBSTRING_TPL = "xpath://div[@class='wikidata-description'][contains(text(),'{SUBSTRING}')]";
+       // SEARCH_RESULT_BY_SUBSTRING_TPL = "xpath://div[@class='wikidata-description'][contains(text(),'{SUBSTRING}')]";
+        SEARCH_RESULT_BY_SUBSTRING_TPL = "xpath://div[@class='results']//*[contains(text(),'{SUBSTRING}')]";
         SEARCH_RESULT_ELEMENT = "css:ul.page-list>li.page-summary";
         SEARCH_EMPTY_RESULT_ELEMENT = "css:p.without-results";
 

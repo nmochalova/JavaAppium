@@ -69,8 +69,7 @@ public class MyListsTests extends CoreTestCase
 
     //Ex5: Тест: сохранение двух статей. Тест сохраняет две статьи в одну папку и потом удаляет одну из статей. Убеждается, что вторая осталась.
     @Test
-    public void testSaveTwoArticlesInOneFolder()
-    {
+    public void testSaveTwoArticlesInOneFolder() throws InterruptedException {
         //Добавляем первую статью
         SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);;
 
@@ -81,10 +80,26 @@ public class MyListsTests extends CoreTestCase
         ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
         ArticlePageObject.waitForTitleElement();
         String articleTitle = ArticlePageObject.getArticleTitle();
+
         String nameOfFolder = "prog";
         if(Platform.getInstance().isAndroid()) {
             ArticlePageObject.addArticleToMyList(nameOfFolder);
         } else {
+            ArticlePageObject.addArticlesToMySaved();
+        }
+        if(Platform.getInstance().isMW()) {
+            AuthorizationPageObject Auth = new AuthorizationPageObject(driver);
+            Auth.clickAuthButton();
+            Auth.enterLoginData(login,password);
+            Auth.submitForm();
+
+            ArticlePageObject.waitForTitleElement();
+
+            assertEquals("We are not on the same page after login.",
+                    articleTitle,
+                    ArticlePageObject.getArticleTitle()
+            );
+
             ArticlePageObject.addArticlesToMySaved();
         }
         ArticlePageObject.closeArticle();
@@ -92,7 +107,7 @@ public class MyListsTests extends CoreTestCase
         //Добавляем вторую статью
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Appium");
-        SearchPageObject.clickByArticleWithSubstring("ppium");
+        SearchPageObject.clickByArticleWithSubstring("Appium");
         ArticlePageObject.waitForTitleElement();
         String titleArcticleExpected = ArticlePageObject.getArticleTitle();
         if(Platform.getInstance().isAndroid()) {
@@ -104,6 +119,7 @@ public class MyListsTests extends CoreTestCase
 
         //Идем в сохраненную группу и удаляем ону статью
         NavigationUI NavigationUI = NavigationUIFactory.get(driver);
+        NavigationUI.openNavigation();
         NavigationUI.clickMyLists();
 
         MyListsPageObject MyListsPageObject = MyListPageObjectFactory.get(driver);
