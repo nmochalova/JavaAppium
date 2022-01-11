@@ -1,6 +1,7 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import io.qameta.allure.Step;
 import lib.Platform;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -35,6 +36,7 @@ abstract public class ArticlePageObject extends MainPageObject
     }
 
     //метод проверяет наличие статьи на странице
+    @Step("Waiting for title on the article page")
     public WebElement waitForTitleElement()
     {
         return this.waitForElementPresent(
@@ -44,9 +46,11 @@ abstract public class ArticlePageObject extends MainPageObject
     }
 
     //метод возвращает название статьи
+    @Step("Get article title")
     public String getArticleTitle()
     {
         WebElement titleElement = waitForTitleElement();
+        screenshot(this.takeScreenshot("article_title"));
         if (Platform.getInstance().isAndroid()) {
             return titleElement.getAttribute("text");
         } else if(Platform.getInstance().isIOS()) {
@@ -56,6 +60,7 @@ abstract public class ArticlePageObject extends MainPageObject
         }
     }
 
+    @Step("Swiping to footer on article page")
     public void swipeToFooter()
     {
         if(Platform.getInstance().isAndroid()) {
@@ -74,10 +79,12 @@ abstract public class ArticlePageObject extends MainPageObject
                     "Cannot find the end of the article",
                     40
             );
+            screenshot(this.takeScreenshot("footer_page"));
         }
     }
 
     //метод добавляет статью в новый список Reading list (для Android)
+    @Step("Adding the article to new My list (for Android)")
     public void addArticleToMyList(String nameOfFolder)
     {
         this.waitForElementAndClick(
@@ -115,6 +122,7 @@ abstract public class ArticlePageObject extends MainPageObject
     }
 
     //метод добавляет статью в избранное (для iOS)
+    @Step("Adding the article to my saved articles (for IOS) ")
     public void addArticlesToMySaved()
     {
         if (Platform.getInstance().isMW()) {
@@ -124,6 +132,7 @@ abstract public class ArticlePageObject extends MainPageObject
     }
 
     //метод, который удаляет статью, если она уже была в Избранном (для mobile web)
+    @Step("Removing the article from Watchlist if it has been added (for mobile web)")
     public void removeArticleFromSavedIfItAdded() {
         if (this.isElementPresent(OPTIONS_REMOVE_FROM_MY_LIST_BUTTON)) { //если кнопка удаления статьи из Избранного присутствует
             this.waitForElementAndClick(
@@ -140,19 +149,19 @@ abstract public class ArticlePageObject extends MainPageObject
     }
 
     //метод, который выбирает ранее созданную папку в reading list по имени папки
+    @Step("Opening folder by name in reading list (for Android)")
     public void openFolderByName(String nameOfFolder)
     {
         String folderNameXpath = getFolderXpathByName(nameOfFolder);
 
         this.waitForElementAndClick(
-                //  By.xpath("//android.widget.TextView[@resource-id='org.wikipedia:id/item_title' and @text='" + nameOfFolder + "']"),
-                //  By.xpath(folderNameXpath),
                 folderNameXpath,
                 "Cannot find folder by name" + nameOfFolder,
                 15);
     }
 
     //метод добавляет статью в ранее созданный список Reading list
+    @Step("Adding the article to existing My list (for Android)")
     public void addArticleToExistingMyList(String nameOfFolder)
     {
         this.waitForElementAndClick(
@@ -170,6 +179,7 @@ abstract public class ArticlePageObject extends MainPageObject
     }
 
     //метод закрывает статью (нажимет на Х в углу статьи)
+    @Step("Closing the article by X button")
     public void closeArticle()
     {
         if (Platform.getInstance().isIOS() || Platform.getInstance().isAndroid()) {

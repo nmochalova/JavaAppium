@@ -6,6 +6,7 @@ import lib.ui.ArticlePageObject;
 import lib.ui.SearchPageObject;
 import lib.ui.factories.ArticlePageObjectFactory;
 import lib.ui.factories.SearchPageObjectFactory;
+import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.config.PlaceholderConfigurerSupport;
 
@@ -31,7 +32,7 @@ public class ChangeAppConditionTests extends CoreTestCase
         this.rotateScreenLandscape();
         String titleAfterRotation = ArticlePageObject.getArticleTitle();
 
-        assertEquals(
+        Assert.assertEquals(
                 "Article title have been changed after rotation",
                 titleBeforeRotation,
                 titleAfterRotation);
@@ -39,7 +40,7 @@ public class ChangeAppConditionTests extends CoreTestCase
         this.rotateScreenPortrait();
         String titleAfterSecondRotation = ArticlePageObject.getArticleTitle();
 
-        assertEquals(
+        Assert.assertEquals(
                 "Article title have been changed after second rotation",
                 titleBeforeRotation,
                 titleAfterSecondRotation);

@@ -3,6 +3,7 @@ package tests;
 import lib.CoreTestCase;
 import lib.ui.SearchPageObject;
 import lib.ui.factories.SearchPageObjectFactory;
+import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import java.util.HashMap;
@@ -48,7 +49,7 @@ public class SearchTests extends CoreTestCase
         SearchPageObject.typeSearchLine(searchLine);
         int amountOfSearchResult = SearchPageObject.getAmountOfFoundArticle();
 
-        assertTrue(
+        Assert.assertTrue(
                 "We found too few results!",
                 amountOfSearchResult > 0);
     }
@@ -76,7 +77,7 @@ public class SearchTests extends CoreTestCase
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Java");
         int amountOfSearchResult = SearchPageObject.getAmountOfFoundArticle();
-        assertTrue(
+        Assert.assertTrue(
                 "We found only one or less results! We want more one result!",
                 amountOfSearchResult > 1);
         SearchPageObject.clickCancelSearch();

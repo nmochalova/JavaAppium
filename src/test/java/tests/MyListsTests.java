@@ -7,6 +7,7 @@ import lib.ui.factories.ArticlePageObjectFactory;
 import lib.ui.factories.MyListPageObjectFactory;
 import lib.ui.factories.NavigationUIFactory;
 import lib.ui.factories.SearchPageObjectFactory;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -45,7 +46,7 @@ public class MyListsTests extends CoreTestCase
 
             ArticlePageObject.waitForTitleElement();
 
-            assertEquals("We are not on the same page after login.",
+            Assert.assertEquals("We are not on the same page after login.",
                     articleTitle,
                     ArticlePageObject.getArticleTitle()
             );
@@ -95,7 +96,7 @@ public class MyListsTests extends CoreTestCase
 
             ArticlePageObject.waitForTitleElement();
 
-            assertEquals("We are not on the same page after login.",
+            Assert.assertEquals("We are not on the same page after login.",
                     articleTitle,
                     ArticlePageObject.getArticleTitle()
             );
@@ -131,7 +132,7 @@ public class MyListsTests extends CoreTestCase
 
         //Проверяем, что в списке осталась 1 статья и ее заголовок соответствует второй статье
         int amountOfArticleInList =  MyListsPageObject.getAmountOfFoundArticleByList();
-        assertTrue(
+        Assert.assertTrue(
                 "We found two articles but must have only one!!",
                 amountOfArticleInList == 1);
 

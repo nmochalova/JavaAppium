@@ -5,13 +5,20 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.PointOption;
+import io.qameta.allure.Attachment;
+import io.qameta.allure.Step;
 import lib.Platform;
+import org.aspectj.util.FileUtil;
 import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -141,6 +148,7 @@ public class MainPageObject {
     }
 
     //метод будет делать скрол до тех пор пока элемент не будет в поле зрения пользователя
+    @Step("Scrolling web page till footer will be visible or till max swipes finished.")
     public void scrollWebPageTillElementNotVisible(String locator, String error_message, int max_swipes) {
         int already_swiped = 0;
 
@@ -325,5 +333,34 @@ public class MainPageObject {
         } else {
             throw new IllegalArgumentException("Cannot get type of locator. Locator: " + locatorWithType);
         }
+    }
+
+    //метод создания скриншота (для allure)
+    public String takeScreenshot(String name)
+    {
+        TakesScreenshot ts = (TakesScreenshot)this.driver;
+        File source = ts.getScreenshotAs(OutputType.FILE);
+        String path = System.getProperty("user.dir") + "/screenshot/" + name + "_screenshot.png";
+        try {
+            FileUtil.copyFile(source,new File(path));
+            System.out.println("The screenshot was taken: " + path);
+        } catch (Exception e) {
+            System.out.println("Cannot take screenshot. Error: " + e.getMessage());
+        }
+        return path;
+    }
+
+    //метод добавляет скриншот к степу (в allure)
+    @Attachment
+    public static byte[] screenshot (String path)
+    {
+        byte[] bytes = new byte[0];
+
+        try {
+            bytes = Files.readAllBytes(Paths.get(path));
+        } catch (IOException e) {
+            System.out.println("Cannot get bytes from screenshot. Error: " + e.getMessage());
+        }
+        return bytes;
     }
 }

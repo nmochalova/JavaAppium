@@ -2,6 +2,7 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import io.qameta.allure.Step;
 import lib.Platform;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -45,6 +46,7 @@ abstract public class SearchPageObject extends MainPageObject {
     /*TEMPLATES METHODS*/
 
     //Метод ожидает на странице элемент "Search Wikipedia" и затем кликает на него
+    @Step("Initializing the search field")
     public void initSearchInput()
     {
         this.waitForElementPresent(SEARCH_INIT_ELEMENT,
@@ -57,6 +59,7 @@ abstract public class SearchPageObject extends MainPageObject {
     }
 
     //Ввод переданного значения в строку поиска "Search..."
+    @Step("Typing '{searchLine}' to the search line")
     public void typeSearchLine(String searchLine)
     {
         this.waitForElementAndSendKeys(
@@ -67,6 +70,7 @@ abstract public class SearchPageObject extends MainPageObject {
     }
 
     //Метод проверяет наличие в результатах поиска строку по заданной подстроке
+    @Step("Waiting for search result by substring '{substring}'")
     public void waitForSearchResult(String substring)
     {
         String searchResultXpath = getResultSearchElement(substring);
@@ -77,6 +81,7 @@ abstract public class SearchPageObject extends MainPageObject {
     }
 
     //клик по результату поиска с учетом заданной подстроки
+    @Step("Waiting for search result and select an article by substring '{substring}' in article title")
     public void clickByArticleWithSubstring(String substring)
     {
         String searchResultXpath = getResultSearchElement(substring);
@@ -88,6 +93,7 @@ abstract public class SearchPageObject extends MainPageObject {
     }
 
     //Проверка наличия кнопки отмены поиска Х на странице
+    @Step("Waiting for button to cancel search result")
     public void waitForCancelButtonToAppear()
     {
         this.waitForElementPresent(
@@ -97,6 +103,7 @@ abstract public class SearchPageObject extends MainPageObject {
     }
 
     //Проверка, что кнопки отмены поиска Х нет на странице
+    @Step("Waiting for search cancel button to do disappear")
     public void waitForCancelButtonToDisAppear()
     {
         this.waitForElementNotPresent(
@@ -106,6 +113,7 @@ abstract public class SearchPageObject extends MainPageObject {
     }
 
     //Клик по кнопке отмены поиска Х
+    @Step("Clicking button to cancel search result")
     public void clickCancelSearch()
     {
         this.waitForElementAndClick(
@@ -116,6 +124,7 @@ abstract public class SearchPageObject extends MainPageObject {
     }
 
     //Подсчет количества результатов поиска
+    @Step("Getting amount of found articles")
     public int getAmountOfFoundArticle()
     {
         this.waitForElementPresent(
@@ -127,6 +136,7 @@ abstract public class SearchPageObject extends MainPageObject {
     }
 
     //метод, который ожидает пустой результат запроса (строку No results found на странице)
+    @Step("Waiting for empty result label")
     public void waitForEmptyResultsLabel()
     {
          this.waitForElementPresent(
@@ -136,6 +146,7 @@ abstract public class SearchPageObject extends MainPageObject {
     }
 
     //метод, который проверяет отсуствие результатов поиска
+    @Step("Making sure there are no results for the search")
     public void assertThereIsNotResultOfSearch()
     {
         this.assertElementNotPresent(
