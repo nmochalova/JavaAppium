@@ -1,0 +1,44 @@
+Пишут, что параллизация тестов стала возможна для Appium, начиная с версии 1.7 - появилась возможность настроить несколько эмуляторов на одном Appim-сервере, но на разных портах.
+
+Рассмотрим подробно для Android.
+Стартуем два приложения Android ABD с разными версиями ОС. Эти приложения слушают разные порты одного Appium Server (например, 8200 и 8201).
+Создаем maven-проект в Intellij IDE, где в pom.xml определяем библиотеки для Appium java client и TestNG.
+
+В методе setup настраиваем анатации @BeforeTest c capabilities:
+- udid (id девайса)
+- systemPort (различные порты Appium-сервера, который умеет разделять трафик на разные подключенные устройства)
+- platform
+- platformVersion
+и анатацию @AfterTest с методом teardown.
+
+Далее создаем тест, который планируем параллельно выполнять на разных устройствах, например, testLoginAndLogout().
+
+Далее определяем testSuit, в котором сначала запускаем тест testLoginAndLogout() на одном устройстве Android, а затем на другом.
+Пример,
+<suite name="AndroidNativeSuite" verbose="1" parallel="tests" thread-count="2">
+    <test name="Android native app test on Android 7">
+        <parameter name="platform" value="Android 7.1.1"/>
+        <parameter name="udid" value="emulator-5556"/>
+        <parameter name="systemPort" value="8200"/>
+        <classes>
+            <class name="AndroidNativeParallelTests" />
+        </classes>
+    </test>
+    <test name="Android native app test on Android 8">
+        <parameter name="platform" value="Android 8.0"/>
+        <parameter name="udid" value="emulator-5554"/>
+        <parameter name="systemPort" value="8201"/>
+        <classes>
+            <class name="AndroidNativeParallelTests" />
+        </classes>
+    </test>
+</suite>
+
+После запуска testSuite выполнение теста должно проходить параллельно на двух устройствах Android, но на одном Appium-сервере.
+
+Также можно настроить параллельное выполнение одного теста на двух разных устройствах iOS и одном Appium-сервере (Xcode9 позволяет запускать несколько симуляторов iOS на одном хосте MAC)
+
+Для настройки параллельной работы для web-приложений необходимо также добавить capabilities = chromeDriverPort, чтобы иметь возмжность указать на каком порту будет работать драйвер Chrome. 
+
+
+Материалы взяты отсюда: https://medium.com/@setpace/parallel-execution-in-appium-1-7-dc60c4802082

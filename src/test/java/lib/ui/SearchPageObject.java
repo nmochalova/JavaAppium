@@ -171,7 +171,7 @@ abstract public class SearchPageObject extends MainPageObject {
         String searchResultXpath =  getResultSearchElementForTitleAndDesc(title, description);
 
         this.waitForElementPresent(searchResultXpath,
-                "Cannot find element in search result by title and description \n" + searchResultXpath);
+                "Cannot find element in search result by title and description" + searchResultXpath);
     }
 
    //метод который проверяет, что локатор содержит строку "Search…"

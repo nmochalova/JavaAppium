@@ -129,7 +129,7 @@ public class SearchTests extends CoreTestCase
 //        TitleAndNDescription.put("JavaScript", "Programming language");
 //        TitleAndNDescription.put("Java (programming language)", "Object-oriented programming language");
 
-        TitleAndNDescription.put("Java", "ndonesia");
+        TitleAndNDescription.put("Java", "sland");
         TitleAndNDescription.put("JavaScript", "rogramming language");
         TitleAndNDescription.put("Java (programming language)", "bject-oriented programming language");
 
