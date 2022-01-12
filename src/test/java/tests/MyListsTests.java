@@ -1,5 +1,7 @@
 package tests;
 
+import io.qameta.allure.*;
+import io.qameta.allure.junit4.DisplayName;
 import lib.CoreTestCase;
 import lib.Platform;
 import lib.ui.*;
@@ -13,6 +15,7 @@ import org.junit.Test;
 /**
  * Тесты на работу с сохраненным списком статей (My lists)
  */
+@Epic("Tests for My Lists")
 public class MyListsTests extends CoreTestCase
 {
     private static final String nameOfFolder = "prog";
@@ -22,6 +25,11 @@ public class MyListsTests extends CoreTestCase
 
     //Тест сохраняет статью в список, потом находит ее и удаляет из списка (свайпом влево).
     @Test
+    @Features(value={@Feature(value="Auth"),@Feature(value = "Article"),@Feature(value = "My lists"),@Feature(value = "Search")})
+    @DisplayName("Save one article to My list")
+    @Description("The test saves the article to My list, then finds it and deletes it from My list.")
+    @Severity(value = SeverityLevel.CRITICAL)
+    @Step("Starting test testSaveFirstArticleToMyList")
     public void testSaveFirstArticleToMyList() throws InterruptedException {
         SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
@@ -70,6 +78,11 @@ public class MyListsTests extends CoreTestCase
 
     //Ex5: Тест: сохранение двух статей. Тест сохраняет две статьи в одну папку и потом удаляет одну из статей. Убеждается, что вторая осталась.
     @Test
+    @Features(value={@Feature(value="Auth"),@Feature(value = "Article"),@Feature(value = "My lists"),@Feature(value = "Search")})
+    @DisplayName("Save two articles to My list")
+    @Description("The test saves two articles in one folder and then deletes one of the articles. Makes sure that the second one remains.")
+    @Severity(value = SeverityLevel.CRITICAL)
+    @Step("Starting test testSaveTwoArticlesInOneFolder")
     public void testSaveTwoArticlesInOneFolder() throws InterruptedException {
         //Добавляем первую статью
         SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);;

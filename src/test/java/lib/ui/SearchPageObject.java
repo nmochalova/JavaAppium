@@ -106,6 +106,7 @@ abstract public class SearchPageObject extends MainPageObject {
     @Step("Waiting for search cancel button to do disappear")
     public void waitForCancelButtonToDisAppear()
     {
+        screenshot(this.takeScreenshot("cancel_button"));
         this.waitForElementNotPresent(
                 SEARCH_CANCEL_BUTTON,
                 "X still present on the page",
@@ -155,6 +156,7 @@ abstract public class SearchPageObject extends MainPageObject {
     }
 
     //метод, который проверяет наличие заголовка в статье
+    @Step("Check the headings in the article")
     public void assertThereIsResultOfSearch()
     {
         this.assertElementPresent(
@@ -162,8 +164,8 @@ abstract public class SearchPageObject extends MainPageObject {
                 "A title not present." );
     }
 
-    //метод дожидатся результата поиска по двум строкам - по заголовку и описанию. Если такого не появляется,
-    // то ошибка.
+    //метод дожидатся результата поиска по двум строкам - по заголовку и описанию. Если такого не появляется, то ошибка.
+    @Step("Waiting for the search result by title '{title}' and description '{description}'")
     public void waitForElementByTitleAndDescription(String title, String description)
     {
         String searchResultXpath =  getResultSearchElementForTitleAndDesc(title, description);
@@ -173,6 +175,7 @@ abstract public class SearchPageObject extends MainPageObject {
     }
 
    //метод который проверяет, что локатор содержит строку "Search…"
+   @Step("A method that checks that the locator contains the string 'Search…'")
     public void assertTextSearchString()
     {
         this.waitForElementPresent(
@@ -188,6 +191,7 @@ abstract public class SearchPageObject extends MainPageObject {
         );
     }
 
+    @Step("A method that checks a keyword '{keyWord}' in all title of articles")
     public void assertForWordByResultsSearch (String keyWord)
     {
         List<WebElement> elementList = this.waitForElementsPresent(

@@ -1,8 +1,6 @@
 package lib.ui;
 
-import io.appium.java_client.AppiumDriver;
-import lib.Platform;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import io.qameta.allure.Step;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import static lib.Platform.*;
@@ -26,6 +24,7 @@ public class WelcomePageObject extends MainPageObject {
         super(driver);
     }
 
+    @Step("Wait link 'ADD OR EDIT LANGUAGES'")
     public void waitForScreenAddLang()
     {
         this.waitForElementPresent(STEP_LEARN_MORE_LINK,
@@ -33,6 +32,7 @@ public class WelcomePageObject extends MainPageObject {
                 10);
     }
 
+    @Step("Wait element 'New ways to explore'")
     public void waitForNewWaysToExp()
     {
         this.waitForElementPresent(STEP_NEW_WAYS_TO_EXPLORE,
@@ -40,6 +40,7 @@ public class WelcomePageObject extends MainPageObject {
                 10);
     }
 
+    @Step("Wait element 'Reading lists with sync'")
     public void waitForReadingList()
     {
         this.waitForElementPresent(STEP_ADD_OR_EDIT_PREFERRED,
@@ -47,6 +48,7 @@ public class WelcomePageObject extends MainPageObject {
                 10);
     }
 
+    @Step("Wait element 'Send anonymous data'")
     public void waitForSendAnonymousData()
     {
         this.waitForElementPresent(STEP_LEARN_MORE_ABOUT_DATA_COLLECTED_LINK,
@@ -54,6 +56,7 @@ public class WelcomePageObject extends MainPageObject {
                 10);
     }
 
+    @Step("Click 'Continue' button'")
     public void clickNextButton()
     {
         this.waitForElementAndClick(NEXT_LINK,
@@ -61,6 +64,7 @@ public class WelcomePageObject extends MainPageObject {
                 10);
     }
 
+    @Step("Click 'Get Started' button'")
     public void clickGetStartedButton()
     {
         this.waitForElementAndClick(GET_STARTED_BUTTON,
@@ -68,6 +72,7 @@ public class WelcomePageObject extends MainPageObject {
                 10);
     }
 
+    @Step("Click 'SKIP' button'")
     public void clickSkip()
     {
          this.waitForElementAndClick(SKIP,"Cannot find and click skip button", 5);

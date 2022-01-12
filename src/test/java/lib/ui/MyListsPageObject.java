@@ -1,6 +1,6 @@
 package lib.ui;
 
-import io.appium.java_client.AppiumDriver;
+import io.qameta.allure.Step;
 import lib.Platform;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -36,6 +36,7 @@ abstract public class MyListsPageObject extends MainPageObject{
     }
 
     //метод проверяет что указанная статья присутствует
+    @Step("Checks that '{articleTitle}' is present")
     public void waitForArticleToAppearByTitle(String articleTitle)
     {
         String articleXpath;
@@ -52,6 +53,7 @@ abstract public class MyListsPageObject extends MainPageObject{
     }
 
     //метод проверяет, что указанная статья отсуствует
+    @Step("Checks that '{articleTitle}' is not present")
     public void waitForArticleToDisappearByTitle(String articleTitle)
     {
         String articleXpath = getFolderXpathByName(articleTitle);
@@ -63,6 +65,7 @@ abstract public class MyListsPageObject extends MainPageObject{
     }
 
     //метод удаляет статью из списка путем свайпа влево. Название статьи является параметром.
+    @Step("Remove article from My list")
     public void swipeByArticleToDelete(String articleTitle)
     {
         this.waitForArticleToAppearByTitle(articleTitle);
@@ -92,6 +95,7 @@ abstract public class MyListsPageObject extends MainPageObject{
     }
 
     //Подсчет количества статей в Избранном
+    @Step("Get amount of found article by My list")
     public int getAmountOfFoundArticleByList()
     {
         this.waitForElementPresent(
@@ -102,7 +106,8 @@ abstract public class MyListsPageObject extends MainPageObject{
         return this.getAmountOfElements(SEARCH_RESULT_ELEMENT_BY_LIST);
     }
 
-    //метод, который выбирает ранее созданную папку в reading list по имени папки
+    //метод, который выбирает ранее созданную папку в My list по имени папки
+    @Step("Open folder by name")
     public void openFolderByName(String nameOfFolder)
     {
         String folderNameXpath = getFolderXpathByName(nameOfFolder);

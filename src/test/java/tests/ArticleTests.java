@@ -18,7 +18,7 @@ public class ArticleTests extends CoreTestCase
 {
     //Тест, который находит в поиске статью, открывает ее и сверяет заголовок с требуемым
     @Test
-    @Features(value={@Feature(value="Search"),@Feature(value = "Article")})
+    @Features(value={@Feature(value="Search"),@Feature(value = "Article"),@Feature(value = "Title")})
     @DisplayName("Compare article title with expected one")
     @Description("We open 'Object-oriented programming language' article and make sure the title expected")
     @Step("Starting test testCompareArticleTitle")
@@ -34,8 +34,6 @@ public class ArticleTests extends CoreTestCase
         ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
         String articleTitle = ArticlePageObject.getArticleTitle();
 
-      //  ArticlePageObject.takeScreenshot("article_page");
-
         Assert.assertEquals(
                 "We see unexpected title",
                 "Java (programming language)",
@@ -44,7 +42,7 @@ public class ArticleTests extends CoreTestCase
 
     //Тест, который открывает статью и несколько раз делает swipe по ней пока не достигнет конца статьи
     @Test
-    @Features(value={@Feature(value="Search"),@Feature(value = "Article")})
+    @Features(value={@Feature(value="Search"),@Feature(value = "Article"),@Feature(value = "Title")})
     @DisplayName("Swipe article to the footer")
     @Description("We open an article and swipe it to the footer")
     @Step("Starting test testSwipeArticle")

@@ -5,7 +5,9 @@
 2) установить переменную среды set PLATFORM=android
 3) запустить Appium Server
 4) запустить эмулятор
-5) в командной строке запустить тест mvn -Dtest=ArticleTests#testCompareArticleTitle test
+5) в командной строке запустить конкретный тест: mvn -Dtest=ArticleTests#testCompareArticleTitle test
+Все тесты: mvn -Dtest=TestSuite test
+Один класс: mvn -Dtest=ArticleTests test
 6) запуск отчетов: allure serve C:\Work\Git\JavaAppium\target\allure-results\
 
 Запуск тестов из Jenkins

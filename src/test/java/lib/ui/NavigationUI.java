@@ -1,7 +1,7 @@
 //методы для навигации по приложению
 package lib.ui;
 
-import io.appium.java_client.AppiumDriver;
+import io.qameta.allure.Step;
 import lib.Platform;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -17,6 +17,7 @@ abstract public class NavigationUI extends MainPageObject {
         super(driver);
     }
 
+    @Step("Click by open navigation button (for MobileWeb)")
     public void openNavigation()
     {
         if(Platform.getInstance().isMW()) {
@@ -27,6 +28,7 @@ abstract public class NavigationUI extends MainPageObject {
     }
 
     //метод перехоит в раздел WatchList
+    @Step("Click My list")
     public void clickMyLists()
     {
         if(Platform.getInstance().isMW()) {
