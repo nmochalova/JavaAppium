@@ -1,7 +1,6 @@
 //методы для поиска
 package lib.ui;
 
-import io.appium.java_client.AppiumDriver;
 import io.qameta.allure.Step;
 import lib.Platform;
 import org.openqa.selenium.WebElement;
@@ -106,7 +105,7 @@ abstract public class SearchPageObject extends MainPageObject {
     @Step("Waiting for search cancel button to do disappear")
     public void waitForCancelButtonToDisAppear()
     {
-        screenshot(this.takeScreenshot("cancel_button"));
+        Utils.screenshot(Utils.takeScreenshot("cancel_button",this.driver));
         this.waitForElementNotPresent(
                 SEARCH_CANCEL_BUTTON,
                 "X still present on the page",

@@ -1,6 +1,5 @@
 package lib.ui;
 
-import io.appium.java_client.AppiumDriver;
 import io.qameta.allure.Step;
 import lib.Platform;
 import org.openqa.selenium.WebElement;
@@ -50,7 +49,7 @@ abstract public class ArticlePageObject extends MainPageObject
     public String getArticleTitle()
     {
         WebElement titleElement = waitForTitleElement();
-        screenshot(this.takeScreenshot("article_title"));
+        Utils.screenshot(Utils.takeScreenshot("article_title",this.driver));
         if (Platform.getInstance().isAndroid()) {
             return titleElement.getAttribute("text");
         } else if(Platform.getInstance().isIOS()) {
@@ -79,7 +78,7 @@ abstract public class ArticlePageObject extends MainPageObject
                     "Cannot find the end of the article",
                     40
             );
-            screenshot(this.takeScreenshot("footer_page"));
+            Utils.screenshot(Utils.takeScreenshot("footer_page",this.driver));
         }
     }
 

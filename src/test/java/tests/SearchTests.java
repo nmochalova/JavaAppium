@@ -5,6 +5,7 @@ import io.qameta.allure.junit4.DisplayName;
 import lib.CoreTestCase;
 import lib.ui.MainPageObject;
 import lib.ui.SearchPageObject;
+import lib.ui.Utils;
 import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Assert;
 import org.junit.Test;
@@ -133,9 +134,17 @@ public class SearchTests extends CoreTestCase
         TitleAndNDescription.put("JavaScript", "rogramming language");
         TitleAndNDescription.put("Java (programming language)", "bject-oriented programming language");
 
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Utils.screenshot(Utils.takeScreenshot("article_title",this.driver));
+
         for (Map.Entry<String, String> kv : TitleAndNDescription.entrySet()) {
             SearchPageObject.waitForElementByTitleAndDescription(kv.getKey(), kv.getValue());
         }
+
     }
 
     //Тест, который проверяет что в поле поиска "Search..." действительно написано "Search..."

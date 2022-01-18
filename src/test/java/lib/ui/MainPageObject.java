@@ -357,33 +357,4 @@ public class MainPageObject {
         }
     }
 
-    //метод создания скриншота (для allure)
-    public String takeScreenshot(String name)
-    {
-        TakesScreenshot ts = (TakesScreenshot)this.driver;
-        File source = ts.getScreenshotAs(OutputType.FILE);
-        long systemMilliseconds = System.currentTimeMillis();
-        String path = System.getProperty("user.dir") + "/screenshot/" + name +"_" + systemMilliseconds + "_screenshot.png";
-        try {
-            FileUtil.copyFile(source,new File(path));
-            System.out.println("The screenshot was taken: " + path);
-        } catch (Exception e) {
-            System.out.println("Cannot take screenshot. Error: " + e.getMessage());
-        }
-        return path;
-    }
-
-    //метод добавляет скриншот к степу (в allure)
-    @Attachment
-    public static byte[] screenshot (String path)
-    {
-        byte[] bytes = new byte[0];
-
-        try {
-            bytes = Files.readAllBytes(Paths.get(path));
-        } catch (IOException e) {
-            System.out.println("Cannot get bytes from screenshot. Error: " + e.getMessage());
-        }
-        return bytes;
-    }
 }
